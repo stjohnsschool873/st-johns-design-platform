@@ -1,160 +1,241 @@
 
 <!DOCTYPE html>
-<html lang="ml">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>St John's School Poster Creator</title>
-
-<link href="https://fonts.googleapis.com/css2?family=Manjari&family=Noto+Sans+Malayalam&family=Gayathri&family=Chilanka&family=Baloo+Chettan+2&family=Kavivanar&family=Roboto&family=Poppins:wght@400;700&family=Playfair+Display&display=swap" rel="stylesheet">
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<title>St John's Poster Maker</title>
 
 <style>
-* { box-sizing:border-box; }
-
-body {
+*{box-sizing:border-box}
+body{
   margin:0;
-  padding:18px;
-  background:#10182b;
+  font-family:Arial,sans-serif;
+  background:#eef1f8;
+  color:#17213a;
+}
+header{
+  background:#172554;
   color:white;
-  font-family:Poppins,sans-serif;
-}
-
-h1 {
+  padding:22px 15px;
   text-align:center;
-  color:#ffd166;
 }
-
-.editor {
-  max-width:600px;
-  margin:auto;
+header h2{margin:0}
+header p{margin:7px 0 0;color:#cbd5e1}
+.container{
+  max-width:950px;
+  margin:20px auto;
+  padding:15px;
 }
-
-input, textarea, select, button {
-  width:100%;
-  padding:13px;
-  margin:7px 0;
-  border-radius:9px;
-  border:0;
-  font-size:16px;
+.editor{
+  background:white;
+  padding:20px;
+  border-radius:15px;
+  box-shadow:0 3px 15px #0001;
 }
-
-button {
-  background:#ffd166;
+label{
+  display:block;
+  margin:13px 0 6px;
   font-weight:bold;
 }
-
-.poster {
+input,textarea,select{
   width:100%;
-  min-height:500px;
-  margin-top:20px;
-  padding:30px 20px;
-  background:linear-gradient(135deg,#6a11cb,#2575fc);
-  color:white;
-  text-align:center;
-  display:flex;
-  flex-direction:column;
-  justify-content:center;
-  overflow-wrap:anywhere;
+  padding:12px;
+  border:1px solid #ccd3e0;
+  border-radius:8px;
+  font-size:15px;
 }
-
-.poster h2 { font-size:32px; }
-.poster p { font-size:20px; }
-
-#photoPreview {
-  max-width:100%;
-  max-height:220px;
-  object-fit:contain;
-  margin:10px auto;
+textarea{height:100px;resize:vertical}
+.colors{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:12px;
+}
+.colors input{height:45px;padding:4px}
+button{
+  border:0;
+  border-radius:9px;
+  padding:14px;
+  font-size:15px;
+  font-weight:bold;
+  cursor:pointer;
+}
+.download{
+  width:100%;
+  background:#2563eb;
+  color:white;
+  margin-top:18px;
+}
+.preview-title{
+  text-align:center;
+  margin:25px 0 12px;
+}
+canvas{
+  width:100%;
+  height:auto;
+  display:block;
+  background:white;
+  border-radius:5px;
+  box-shadow:0 4px 18px #0002;
+}
+footer{
+  text-align:center;
+  padding:20px;
+  color:#64748b;
 }
 </style>
 </head>
 
 <body>
 
+<header>
+<h2>ST. JOHN'S SCHOOL</h2>
+<p>Creative Poster Design Studio</p>
+</header>
+
+<div class="container">
 <div class="editor">
 
-<h1>🎨 POSTER CREATOR</h1>
-<p style="text-align:center">ST JOHN'S SCHOOL</p>
+<h3>🎨 Create Your Poster</h3>
 
-<label>Poster Heading</label>
-<input id="heading" value="നമ്മുടെ സ്കൂൾ">
+<label>School Name</label>
+<input id="school" value="ST. JOHN'S SCHOOL">
 
-<label>Description</label>
-<textarea id="description">നിങ്ങളുടെ സന്ദേശം ഇവിടെ എഴുതുക</textarea>
+<label>Poster Title</label>
+<input id="title" value="CANCER AWARENESS">
 
-<label>Your Name</label>
-<input id="author" placeholder="Enter your name">
+<label>Subtitle</label>
+<input id="subtitle" value="FIGHT CANCER, SPREAD HOPE">
 
-<label>Select Font</label>
+<label>Poster Description</label>
+<textarea id="body">Cancer awareness is the first step towards prevention and early detection. Spread knowledge, support cancer fighters and encourage healthy living.</textarea>
+
+<label>Footer Text</label>
+<input id="footer" value="TOGETHER WE CAN MAKE A DIFFERENCE">
+
+<label>Choose Font</label>
 <select id="font">
-<option value="Manjari">Manjari</option>
-<option value="Noto Sans Malayalam">Noto Sans Malayalam</option>
-<option value="Gayathri">Gayathri</option>
-<option value="Chilanka">Chilanka</option>
-<option value="Baloo Chettan 2">Baloo Chettan 2</option>
-<option value="Kavivanar">Kavivanar</option>
-<option value="Poppins">Poppins</option>
-<option value="Roboto">Roboto</option>
-<option value="Playfair Display">Playfair Display</option>
+<option value="Arial">Arial</option>
+<option value="Georgia">Georgia</option>
+<option value="Verdana">Verdana</option>
+<option value="Trebuchet MS">Trebuchet MS</option>
+<option value="Times New Roman">Times New Roman</option>
 </select>
 
-<label>Poster Background Colour</label>
-<input type="color" id="colour" value="#6a11cb">
-
-<label>Upload Image</label>
-<input type="file" id="photo" accept="image/*">
-
-<div class="poster" id="poster">
-<h2 id="outHeading">നമ്മുടെ സ്കൂൾ</h2>
-<img id="photoPreview" hidden>
-<p id="outDescription">നിങ്ങളുടെ സന്ദേശം ഇവിടെ എഴുതുക</p>
-<h3 id="outAuthor"></h3>
+<div class="colors">
+<div>
+<label>Background Colour</label>
+<input type="color" id="bg" value="#10234f">
+</div>
+<div>
+<label>Text Colour</label>
+<input type="color" id="fg" value="#ffffff">
+</div>
 </div>
 
-<button onclick="downloadPoster()">⬇ Download Poster</button>
+<label>Accent Colour</label>
+<input type="color" id="accent" value="#ffcc55">
+
+<button class="download" onclick="downloadPoster()">
+⬇ DOWNLOAD A4 POSTER
+</button>
 
 </div>
+
+<h3 class="preview-title">Live Poster Preview</h3>
+<canvas id="poster" width="1240" height="1754"></canvas>
+
+</div>
+
+<footer>
+© 2026 ST. JOHN'S SCHOOL | Poster Maker
+</footer>
 
 <script>
-const $ = id => document.getElementById(id);
+const ids=["school","title","subtitle","body","footer","font","bg","fg","accent"];
 
-function updatePoster() {
-  $("outHeading").textContent = $("heading").value;
-  $("outDescription").textContent = $("description").value;
-  $("outAuthor").textContent = $("author").value;
-  $("poster").style.background = $("colour").value;
-  $("poster").style.fontFamily =
-    '"' + $("font").value + '", sans-serif';
+function draw(){
+ const c=document.getElementById("poster");
+ const ctx=c.getContext("2d");
+ const W=c.width,H=c.height;
+
+ const school=document.getElementById("school").value;
+ const title=document.getElementById("title").value;
+ const subtitle=document.getElementById("subtitle").value;
+ const body=document.getElementById("body").value;
+ const footer=document.getElementById("footer").value;
+ const font=document.getElementById("font").value;
+ const bg=document.getElementById("bg").value;
+ const fg=document.getElementById("fg").value;
+ const accent=document.getElementById("accent").value;
+
+ ctx.fillStyle=bg;
+ ctx.fillRect(0,0,W,H);
+
+ ctx.strokeStyle=accent;
+ ctx.lineWidth=18;
+ ctx.strokeRect(35,35,W-70,H-70);
+
+ ctx.textAlign="center";
+ ctx.fillStyle=accent;
+ ctx.font="bold 48px "+font;
+ ctx.fillText(school.toUpperCase(),W/2,180);
+
+ ctx.fillRect(180,230,W-360,7);
+
+ ctx.fillStyle=fg;
+ ctx.font="bold 82px "+font;
+ wrap(title.toUpperCase(),W/2,510,950,105);
+
+ ctx.fillStyle=accent;
+ ctx.font="bold 43px "+font;
+ wrap(subtitle,W/2,750,950,65);
+
+ ctx.fillStyle=fg;
+ ctx.font="36px "+font;
+ wrap(body,W/2,1000,900,65);
+
+ ctx.fillStyle=accent;
+ ctx.fillRect(220,1450,W-440,6);
+
+ ctx.fillStyle=fg;
+ ctx.font="bold 32px "+font;
+ wrap(footer,W/2,1540,900,50);
+
+ ctx.font="24px "+font;
+ ctx.fillStyle=accent;
+ ctx.fillText("DESIGNED WITH CREATIVITY",W/2,1650);
+
+ function wrap(text,x,y,maxWidth,lineHeight){
+   let words=text.split(/\s+/);
+   let line="";
+   let currentY=y;
+   words.forEach(word=>{
+     let test=line ? line+" "+word : word;
+     if(ctx.measureText(test).width>maxWidth && line){
+       ctx.fillText(line,x,currentY);
+       line=word;
+       currentY+=lineHeight;
+     }else{
+       line=test;
+     }
+   });
+   if(line)ctx.fillText(line,x,currentY);
+ }
 }
 
-["heading","description","author","colour","font"].forEach(id => {
-  $(id).addEventListener("input", updatePoster);
-  $(id).addEventListener("change", updatePoster);
-});
-
-$("photo").addEventListener("change", e => {
-  const file = e.target.files[0];
-  if (!file) return;
-  $("photoPreview").src = URL.createObjectURL(file);
-  $("photoPreview").hidden = false;
-});
-
-async function downloadPoster() {
-  await document.fonts.ready;
-  const canvas = await html2canvas($("poster"), {
-    scale:2,
-    useCORS:true
-  });
-  const link = document.createElement("a");
-  link.download = "School-Poster.png";
-  link.href = canvas.toDataURL("image/png");
-  link.click();
+function downloadPoster(){
+ draw();
+ const link=document.createElement("a");
+ link.download="st-johns-poster.png";
+ link.href=document.getElementById("poster").toDataURL("image/png");
+ link.click();
 }
 
-updatePoster();
+ids.forEach(id=>{
+ document.getElementById(id).addEventListener("input",draw);
+});
+draw();
 </script>
 
 </body>
